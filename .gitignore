@@ -1,0 +1,109 @@
+# ==============================================================================
+# Environment Variables & Secrets (Keep .env.example tracked)
+# ==============================================================================
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test.local
+.env.production
+.env.production.local
+.env.staging
+.env.*.local
+!.env.example
+!.env.*.example
+
+# ==============================================================================
+# Dependencies & Package Managers
+# ==============================================================================
+node_modules/
+*/node_modules/
+*/*/node_modules/
+.pnpm-store/
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# ==============================================================================
+# Next.js & Frontend Build Outputs
+# ==============================================================================
+.next/
+*/.next/
+out/
+*/out/
+build/
+*/build/
+dist/
+*/dist/
+.turbo/
+*/.turbo/
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# ==============================================================================
+# Medusa v2 Backend Build & Runtime Artifacts
+# ==============================================================================
+.medusa/
+*/.medusa/
+*/*/.medusa/
+.cache/
+*/.cache/
+uploads/
+*/uploads/
+*/*/uploads/
+
+# ==============================================================================
+# Database Dumps, Volatiles & Binary Storage
+# ==============================================================================
+*.sql
+*.dump
+*.tar.gz
+*.zip
+*.sqlite
+*.sqlite3
+*.db
+output_file.sql
+docker/data/
+docker/volumes/
+
+# ==============================================================================
+# Logs & Process Outputs
+# ==============================================================================
+logs/
+*/logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ==============================================================================
+# Test & Coverage Outputs
+# ==============================================================================
+coverage/
+*/coverage/
+.nyc_output/
+
+# ==============================================================================
+# Operating System & IDE Files
+# ==============================================================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+.idea/
+*.swp
+*.swo
+*~
+
+# VS Code (preserve shared settings/extensions, ignore local workspace state)
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.vscode/*.log

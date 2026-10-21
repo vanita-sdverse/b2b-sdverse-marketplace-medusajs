@@ -1,0 +1,73 @@
+.hero {
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--color-border);
+  padding: 4rem 0;
+}
+
+.contentWrapper {
+  max-width: 880px;
+}
+
+.title {
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--brand-dark);
+  margin-bottom: 1.25rem;
+}
+
+.description {
+  font-size: 1.125rem;
+  color: var(--color-muted);
+  line-height: 1.6;
+  max-width: 700px;
+  margin-bottom: 2rem;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.exploreBtn {
+  background-color: var(--brand-yellow);
+  color: var(--brand-dark);
+  padding: 0.85rem 1.75rem;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  border: 1px solid #E4D935;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: var(--brand-yellow-hover);
+  }
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.metricValue {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--brand-dark);
+}
+
+.metricLabel {
+  font-size: 0.8125rem;
+  color: #6B7280;
+  margin-top: 0.2rem;
+}

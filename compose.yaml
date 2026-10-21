@@ -1,0 +1,174 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-marketplace}
+      POSTGRES_USER: ${POSTGRES_USER:-marketplace}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - marketplace-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - marketplace-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.2
+    container_name: elasticsearch
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - marketplace-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER:-marketplace}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS:-change_me}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - marketplace-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+    networks:
+      - marketplace-network
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://127.0.0.1/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+  medusa:
+    image: node:20-alpine
+    container_name: medusa
+    restart: unless-stopped
+    working_dir: /repo/apps/backend
+    command: npm run dev
+    volumes:
+      - .:/repo
+    ports:
+      - "9000:9000"
+    environment:
+      - DATABASE_URL=postgresql://marketplace:change_me@postgres:5432/marketplace?sslmode=disable
+      - REDIS_URL=redis://redis:6379
+      - STORE_CORS=http://localhost:8000,http://marketplace.local,http://localhost:3000
+      - ADMIN_CORS=http://localhost:5173,http://localhost:9000,http://admin.marketplace.local,http://localhost:7001
+      - AUTH_CORS=http://localhost:5173,http://localhost:9000,http://admin.marketplace.local,http://seller.marketplace.local,http://localhost:7001,http://localhost:7002
+      - JWT_SECRET=supersecret
+      - COOKIE_SECRET=supersecret
+    networks:
+      - marketplace-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  storefront:
+    image: node:20-alpine
+    container_name: storefront
+    restart: unless-stopped
+    working_dir: /repo/apps/storefront
+    command: npm run dev
+    volumes:
+      - .:/repo
+    ports:
+      - "3000:3000"
+    networks:
+      - marketplace-network
+
+  seller-portal:
+    image: node:20-alpine
+    container_name: seller-portal
+    restart: unless-stopped
+    working_dir: /repo/apps/seller-portal
+    command: npm run dev
+    volumes:
+      - .:/repo
+    ports:
+      - "7002:7002"
+    networks:
+      - marketplace-network
+
+  backoffice:
+    image: node:20-alpine
+    container_name: backoffice
+    restart: unless-stopped
+    working_dir: /repo/apps/backoffice
+    command: npm run dev
+    volumes:
+      - .:/repo
+    ports:
+      - "7001:7001"
+    networks:
+      - marketplace-network
+
+networks:
+  marketplace-network:
+    name: marketplace-network
+    driver: bridge
+
+volumes:
+  postgres_data:
+    name: marketplace_postgres_data
+  elasticsearch_data:
+    name: marketplace_elasticsearch_data
+  rabbitmq_data:
+    name: marketplace_rabbitmq_data

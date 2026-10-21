@@ -1,0 +1,118 @@
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--brand-dark);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid #1F2937;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+.brandHeader {
+  padding: 1.5rem 1.25rem;
+  border-bottom: 1px solid #1F2937;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.brandLogo {
+  width: 32px;
+  height: 32px;
+  background-color: #1F2937;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 3px solid var(--brand-yellow);
+}
+
+.brandLogoText {
+  color: var(--brand-yellow);
+  font-weight: 800;
+  font-size: 0.9rem;
+}
+
+.brandTitle {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.1;
+}
+
+.brandSubtitle {
+  font-size: 0.6875rem;
+  color: #9CA3AF;
+}
+
+.nav {
+  padding: 1rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background-color: transparent;
+  color: #D1D5DB;
+  border-left: 3px solid transparent;
+  transition: background-color 0.15s, color 0.15s;
+
+  &:hover {
+    background-color: #1F2937;
+    color: #ffffff;
+  }
+
+  &.active {
+    font-weight: 600;
+    background-color: #1F2937;
+    color: var(--brand-yellow);
+    border-left: 3px solid var(--brand-yellow);
+  }
+}
+
+.footer {
+  padding: 1.25rem;
+  border-top: 1px solid #1F2937;
+  background-color: #0F172A;
+}
+
+.sellerName {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.sellerId {
+  font-size: 0.7rem;
+  color: #9CA3AF;
+  margin-top: 2px;
+}
+
+.verifiedTag {
+  margin-top: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.6875rem;
+  color: #10B981;
+}
+
+.verifiedDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #10B981;
+}

@@ -1,0 +1,70 @@
+.headerActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.metricTitle {
+  font-size: 0.6875rem;
+  color: var(--color-admin-muted);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.metricValue {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-admin-text);
+  margin-top: 0.25rem;
+
+  &.alert {
+    color: #DC2626;
+  }
+}
+
+.metricNote {
+  font-size: 0.75rem;
+  color: #64748B;
+  margin-top: 0.2rem;
+
+  &.alert {
+    color: #DC2626;
+  }
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-admin-text);
+}
+
+.sectionSubtitle {
+  font-size: 0.8125rem;
+  color: var(--color-admin-muted);
+}
+
+.eventType {
+  font-weight: 600;
+}
+
+.entity {
+  color: #334155;
+}
+
+.time {
+  color: #64748B;
+  font-size: 0.75rem;
+}

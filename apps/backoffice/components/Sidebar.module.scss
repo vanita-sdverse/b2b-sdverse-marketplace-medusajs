@@ -1,0 +1,134 @@
+.sidebar {
+  width: var(--admin-sidebar-width);
+  background-color: #FFFFFF;
+  border-right: 1px solid var(--color-admin-border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0;
+
+  @media (max-width: 860px) {
+    width: 100%;
+  }
+}
+
+.brandHeader {
+  padding: 1.25rem 1.25rem;
+  border-bottom: 1px solid var(--color-admin-border);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.brandLogo {
+  width: 30px;
+  height: 30px;
+  background-color: #0F172A;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 3px solid #FFF451;
+}
+
+.brandLogoText {
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+
+.brandTitle {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #0F172A;
+  line-height: 1.1;
+}
+
+.brandSubtitle {
+  font-size: 0.6875rem;
+  color: #64748B;
+}
+
+.nav {
+  padding: 1rem 0.5rem;
+  overflow-y: auto;
+}
+
+.section {
+  margin-bottom: 1.25rem;
+}
+
+.sectionTitle {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--color-admin-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0 0.85rem;
+  margin-bottom: 0.4rem;
+}
+
+.itemList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.itemLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.45rem 0.85rem;
+  border-radius: 5px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  background-color: transparent;
+  color: #475569;
+  border-left: 3px solid transparent;
+  transition: background-color 0.1s;
+
+  &:hover {
+    background-color: #F8FAFC;
+    color: #0F172A;
+  }
+
+  &.active {
+    font-weight: 600;
+    background-color: #F1F5F9;
+    color: #0F172A;
+    border-left: 3px solid #0F172A;
+  }
+}
+
+.itemContent {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.itemIcon {
+  font-size: 0.95rem;
+}
+
+.badge {
+  font-size: 0.65rem;
+  padding: 1px 5px;
+  background-color: #FEF08A;
+  color: #854D0E;
+  font-weight: 700;
+  border-radius: 3px;
+}
+
+.footer {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--color-admin-border);
+  background-color: #F8FAFC;
+  font-size: 0.75rem;
+  color: #64748B;
+}
+
+.environment {
+  font-size: 0.6875rem;
+  color: #94A3B8;
+  margin-top: 2px;
+}

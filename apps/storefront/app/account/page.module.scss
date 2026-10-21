@@ -1,0 +1,128 @@
+.pageWrapper {
+  padding: 3rem 0;
+}
+
+.accountContainer {
+  max-width: 1000px;
+}
+
+.breadcrumbs {
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+  margin-bottom: 0.75rem;
+}
+
+.breadcrumbCurrent {
+  color: var(--brand-dark);
+  font-weight: 600;
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: 800;
+  color: var(--brand-dark);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  margin-bottom: 2rem;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 240px 1fr;
+  }
+}
+
+.sidebar {
+  background-color: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.navList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.navItemActive {
+  padding: 0.6rem 0.75rem;
+  font-weight: 700;
+  background-color: #FEF9C3;
+  color: #854D0E;
+  border-radius: 6px;
+}
+
+.navItem {
+  padding: 0.6rem 0.75rem;
+  color: #4B5563;
+}
+
+.contentCard {
+  background-color: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 2rem;
+}
+
+.contentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--brand-dark);
+}
+
+.statusVerified {
+  font-size: 0.8125rem;
+  color: #059669;
+  font-weight: 600;
+}
+
+.termsBadge {
+  background-color: var(--brand-yellow);
+  color: var(--brand-dark);
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.infoLabel {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin-bottom: 0.25rem;
+}
+
+.infoValue {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--brand-dark);
+}

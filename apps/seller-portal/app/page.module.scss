@@ -1,0 +1,81 @@
+.headerActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.metricTitle {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.metricValue {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--color-foreground);
+  margin-top: 0.35rem;
+
+  &.alert {
+    color: #DC2626;
+  }
+}
+
+.metricChange {
+  font-size: 0.75rem;
+  color: #059669;
+  font-weight: 500;
+  margin-top: 0.25rem;
+
+  &.alert {
+    color: #DC2626;
+  }
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.sectionTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-foreground);
+}
+
+.sectionSubtitle {
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+}
+
+.orderId {
+  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+
+.customer {
+  font-weight: 500;
+}
+
+.itemsSummary {
+  color: #4B5563;
+}
+
+.totalPrice {
+  font-weight: 700;
+}
+
+.orderDate {
+  color: #6B7280;
+  font-size: 0.8125rem;
+}

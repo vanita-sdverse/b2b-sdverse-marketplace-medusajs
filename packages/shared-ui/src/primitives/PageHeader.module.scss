@@ -1,0 +1,59 @@
+.container {
+  margin-bottom: 1.5rem;
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: #6B7280;
+  margin-bottom: 0.5rem;
+}
+
+.breadcrumbSeparator {
+  color: #9CA3AF;
+}
+
+.breadcrumbLink {
+  color: #4B5563;
+  text-decoration: none;
+
+  &:hover {
+    color: #111827;
+    text-decoration: underline;
+  }
+}
+
+.breadcrumbCurrent {
+  color: #111827;
+  font-weight: 500;
+}
+
+.headerRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-foreground, #111827);
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.875rem;
+  color: var(--color-muted, #6B7280);
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}

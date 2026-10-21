@@ -1,0 +1,33 @@
+.sellerId {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.sellerName {
+  font-weight: 600;
+}
+
+.handle {
+  color: #475569;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.country {
+  color: #64748B;
+}
+
+.catalogSize {
+  font-weight: 500;
+}
+
+.createdDate {
+  color: #64748B;
+  font-size: 0.75rem;
+}
+
+.rowActions {
+  display: flex;
+  gap: 0.4rem;
+}

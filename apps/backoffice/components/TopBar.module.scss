@@ -1,0 +1,58 @@
+.header {
+  height: 56px;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid var(--color-admin-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  flex-shrink: 0;
+
+  @media (max-width: 860px) {
+    padding: 0.75rem 1rem;
+    height: auto;
+    min-height: 50px;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+
+.platformInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.platformLabel {
+  font-size: 0.8125rem;
+  color: var(--color-admin-muted);
+}
+
+.platformName {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-admin-text);
+}
+
+.versionBadge {
+  font-size: 0.6875rem;
+  background-color: #E2E8F0;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.userContainer {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.userInfo {
+  font-size: 0.8125rem;
+  color: var(--color-admin-muted);
+
+  strong {
+    color: #0F172A;
+  }
+}
