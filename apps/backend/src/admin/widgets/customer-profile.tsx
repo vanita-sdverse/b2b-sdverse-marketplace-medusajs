@@ -6,8 +6,6 @@ import { Container, Heading, Text, Badge, StatusBadge } from "@medusajs/ui"
 type CustomerProfileData = {
   id?: string
   customer_reference?: string
-  date_of_birth?: string | null
-  gender?: string | null
   salutation?: string | null
   position?: string | null
   locale_code?: string | null
@@ -87,26 +85,6 @@ const CustomerProfileWidget = ({ data }: DetailWidgetProps<AdminCustomer>) => {
           <Text className="text-ui-fg-muted text-xs font-medium">Salutation</Text>
           <Text className="capitalize text-ui-fg-base mt-0.5">
             {profile?.salutation ? profile.salutation.toUpperCase() : "—"}
-          </Text>
-        </div>
-
-        <div>
-          <Text className="text-ui-fg-muted text-xs font-medium">Gender</Text>
-          <Text className="capitalize text-ui-fg-base mt-0.5">
-            {profile?.gender ? (
-              <Badge size="small" color="grey">
-                {profile.gender}
-              </Badge>
-            ) : (
-              "—"
-            )}
-          </Text>
-        </div>
-
-        <div>
-          <Text className="text-ui-fg-muted text-xs font-medium">Date of Birth</Text>
-          <Text className="text-ui-fg-base mt-0.5">
-            {profile?.date_of_birth || "—"}
           </Text>
         </div>
 

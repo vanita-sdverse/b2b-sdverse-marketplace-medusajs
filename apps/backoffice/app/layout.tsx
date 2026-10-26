@@ -1,8 +1,7 @@
 import type { Metadata } from "next"
 import "../styles/globals.scss"
 import styles from "./layout.module.scss"
-import { Sidebar } from "../components/Sidebar"
-import { TopBar } from "../components/TopBar"
+import { BackofficeShell } from "../components/BackofficeShell"
 
 export const metadata: Metadata = {
   title: "Backoffice Admin | SDVERSE B2B Marketplace",
@@ -17,13 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className={styles.layout}>
-          <Sidebar />
-          <div className={styles.main}>
-            <TopBar />
-            <main className={styles.content}>{children}</main>
-          </div>
-        </div>
+        <BackofficeShell>{children}</BackofficeShell>
       </body>
     </html>
   )

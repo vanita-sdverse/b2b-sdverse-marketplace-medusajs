@@ -1,8 +1,7 @@
 import type { Metadata } from "next"
 import "../styles/globals.scss"
 import styles from "./layout.module.scss"
-import { Sidebar } from "../components/Sidebar"
-import { TopHeader } from "../components/TopHeader"
+import { SellerPortalShell } from "../components/SellerPortalShell"
 
 export const metadata: Metadata = {
   title: "Seller Portal | SDVERSE Marketplace",
@@ -17,13 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className={styles.layout}>
-          <Sidebar />
-          <div className={styles.main}>
-            <TopHeader />
-            <main className={styles.content}>{children}</main>
-          </div>
-        </div>
+        <SellerPortalShell>{children}</SellerPortalShell>
       </body>
     </html>
   )

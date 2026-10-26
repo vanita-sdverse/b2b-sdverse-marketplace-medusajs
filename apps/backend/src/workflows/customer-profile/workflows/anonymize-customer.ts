@@ -26,9 +26,10 @@ const recordAnonymizationTimestampStep = createStep(
       filters: { id: customerId },
     }
     const [customer] = (await remoteQuery(query)) as any[]
-    const existingProfile = customer?.customer_profile
+    const existingProfile = customer?.customer_profile || customer?.sdv_customers
+    const profilePk = existingProfile?.id_customer ?? existingProfile?.id
 
-    if (!existingProfile?.id) {
+    if (!profilePk) {
       throw new MedusaError(
         MedusaError.Types.NOT_FOUND,
         `No profile found for customer '${customerId}'`
@@ -38,20 +39,19 @@ const recordAnonymizationTimestampStep = createStep(
     const previousAnonymizedAt = existingProfile.anonymized_at
     const now = new Date()
 
-    const updated = await service.updateCustomerProfiles({
-      id: existingProfile.id,
+    const updated = await (service as any).updateCustomerProfiles({
+      id_customer: profilePk,
       anonymized_at: now,
-      date_of_birth: null,
       position: null,
     })
 
-    return new StepResponse(updated, { profileId: existingProfile.id, previousAnonymizedAt })
+    return new StepResponse(updated, { profileId: profilePk, previousAnonymizedAt })
   },
   async (compensationData, { container }) => {
     if (!compensationData) return
     const service: CustomerProfileModuleService = container.resolve(CUSTOMER_PROFILE_MODULE)
-    await service.updateCustomerProfiles({
-      id: compensationData.profileId,
+    await (service as any).updateCustomerProfiles({
+      id_customer: compensationData.profileId,
       anonymized_at: compensationData.previousAnonymizedAt,
     })
   }

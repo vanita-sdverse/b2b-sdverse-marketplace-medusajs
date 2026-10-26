@@ -4,6 +4,7 @@ import React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import styles from "./Sidebar.module.scss"
+import { useBackofficeAuth } from "../context/BackofficeAuthContext"
 
 interface NavItem {
   label: string
@@ -14,28 +15,17 @@ interface NavItem {
 
 export const Sidebar: React.FC = () => {
   const pathname = usePathname()
+  const { hasRouteAccess } = useBackofficeAuth()
 
   const CORE_COMMERCE: NavItem[] = [
     { label: "Dashboard", href: "/", icon: "📊" },
-    { label: "Products", href: "/products", icon: "📦" },
-    { label: "Categories", href: "/categories", icon: "📑" },
-    { label: "Inventory", href: "/inventory", icon: "🏬" },
-    { label: "Orders", href: "/orders", icon: "🧾" },
-  ]
-
-  const B2B_MARKETPLACE: NavItem[] = [
-    { label: "Sellers", href: "/sellers", icon: "🏢", badge: "Core" },
+    { label: "Companies", href: "/companies", icon: "🏢" },
     { label: "Customers", href: "/customers", icon: "👥" },
-    { label: "Pricing Rules", href: "/pricing", icon: "🏷️" },
-    { label: "Sales Channels", href: "/sales-channels", icon: "🌐" },
-  ]
-
-  const GOVERNANCE: NavItem[] = [
     { label: "Admin Users", href: "/users", icon: "👤" },
     { label: "Roles & Permissions", href: "/roles", icon: "🔐" },
-    { label: "Portal Logs", href: "/logs", icon: "📋", badge: "Live" },
-    { label: "Settings", href: "/settings", icon: "⚙️" },
   ]
+
+  const permittedCommerce = CORE_COMMERCE.filter((item) => hasRouteAccess(item.href))
 
   const renderSection = (title: string, items: NavItem[]) => (
     <div className={styles.section}>
@@ -82,9 +72,7 @@ export const Sidebar: React.FC = () => {
         </div>
 
         <nav className={styles.nav}>
-          {renderSection("Commerce Operations", CORE_COMMERCE)}
-          {renderSection("B2B & Multi-Vendor", B2B_MARKETPLACE)}
-          {renderSection("System & Governance", GOVERNANCE)}
+          {renderSection("Commerce Operations", permittedCommerce)}
         </nav>
       </div>
 

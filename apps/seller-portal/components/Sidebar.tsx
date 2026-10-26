@@ -4,9 +4,11 @@ import React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import styles from "./Sidebar.module.scss"
+import { useSellerAuth } from "../context/SellerAuthContext"
 
 export const Sidebar: React.FC = () => {
   const pathname = usePathname()
+  const { user, hasRouteAccess } = useSellerAuth()
 
   const NAV_ITEMS = [
     { label: "Dashboard", href: "/", icon: "📊" },
@@ -16,6 +18,9 @@ export const Sidebar: React.FC = () => {
     { label: "Analytics", href: "/analytics", icon: "📈" },
     { label: "Profile", href: "/profile", icon: "🏢" },
   ]
+
+  // Filter NAV_ITEMS to only display permitted routes
+  const permittedNavItems = NAV_ITEMS.filter((item) => hasRouteAccess(item.href))
 
   return (
     <aside className={styles.sidebar}>
@@ -31,9 +36,9 @@ export const Sidebar: React.FC = () => {
           </div>
         </div>
 
-        {/* Navigation links */}
+        {/* Navigation links - Only showing permitted routes */}
         <nav className={styles.nav}>
-          {NAV_ITEMS.map((item) => {
+          {permittedNavItems.map((item) => {
             const isActive = pathname === item.href
             return (
               <Link
@@ -49,10 +54,12 @@ export const Sidebar: React.FC = () => {
         </nav>
       </div>
 
-      {/* Seller info footer */}
+      {/* Seller info footer with company & role info */}
       <div className={styles.footer}>
-        <div className={styles.sellerName}>Apex Euro Truck Components</div>
-        <div className={styles.sellerId}>Seller ID: sel_01HPX78</div>
+        <div className={styles.sellerName}>{user?.company_name || "SDVerse"}</div>
+        <div className={styles.sellerId} title={user?.role_name || "Role"}>
+          {user?.role_name || "Merchant User"}
+        </div>
         <div className={styles.verifiedTag}>
           <span className={styles.verifiedDot} />
           Verified Merchant

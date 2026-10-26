@@ -17,8 +17,6 @@ export type UpdateCustomerWithProfileWorkflowInput = {
     metadata?: Record<string, unknown> | null
   }
   profile?: {
-    date_of_birth?: string | null
-    gender?: Gender | null
     salutation?: Salutation | null
     position?: string | null
     locale_code?: string | null

@@ -1,6 +1,17 @@
+"use client"
+
 import React from "react"
-import { PageHeader, Card, TableShell, Badge, Button } from "@marketplace/shared-ui"
+import { PageHeader, Card, Badge, Button } from "@marketplace/shared-ui"
+import { DataTable, DataTableColumn } from "../components/DataTable"
 import styles from "./page.module.scss"
+
+interface ActivityRow {
+  id: string
+  type: string
+  entity: string
+  time: string
+  status: string
+}
 
 export default function BackofficeDashboardPage() {
   const METRICS = [
@@ -12,11 +23,61 @@ export default function BackofficeDashboardPage() {
     { title: "Critical Stock Alerts", value: "19", isAlert: true, note: "Zero inventory items" },
   ]
 
-  const RECENT_ACTIVITY = [
-    { type: "Seller Application", entity: "EuroDiesel Systems GmbH", time: "10 mins ago", status: "Pending Review" },
-    { type: "Bulk Catalog Ingestion", entity: "Apex Euro Truck Components (420 SKUs)", time: "45 mins ago", status: "Completed" },
-    { type: "Tiered Pricing Rule", entity: "Fleet Net 60 Contract #489", time: "2 hours ago", status: "Active" },
-    { type: "High-Value RFQ Order", entity: "Nordic Transport Logistics ($48,200.00)", time: "3 hours ago", status: "Under Review" },
+  const RECENT_ACTIVITY: ActivityRow[] = [
+    { id: "act_01", type: "Seller Application", entity: "EuroDiesel Systems GmbH", time: "10 mins ago", status: "Pending Review" },
+    { id: "act_02", type: "Bulk Catalog Ingestion", entity: "Apex Euro Truck Components (420 SKUs)", time: "45 mins ago", status: "Completed" },
+    { id: "act_03", type: "Tiered Pricing Rule", entity: "Fleet Net 60 Contract #489", time: "2 hours ago", status: "Active" },
+    { id: "act_04", type: "High-Value RFQ Order", entity: "Nordic Transport Logistics ($48,200.00)", time: "3 hours ago", status: "Under Review" },
+    { id: "act_05", type: "Role Assignment", entity: "Buyer 'procurement@nordic-transport.se' granted Product Consumer", time: "4 hours ago", status: "Completed" },
+    { id: "act_06", type: "KYB Verification", entity: "Bavaria Transmissions SpA audit documentation approved", time: "5 hours ago", status: "Completed" },
+  ]
+
+  const columns: DataTableColumn<ActivityRow>[] = [
+    {
+      key: "type",
+      header: "Event Type",
+      sortable: true,
+      render: (ev) => <span className={styles.eventType}>{ev.type}</span>,
+    },
+    {
+      key: "entity",
+      header: "Entity / Target",
+      sortable: true,
+      render: (ev) => <span className={styles.entity}>{ev.entity}</span>,
+    },
+    {
+      key: "time",
+      header: "Timestamp",
+      sortable: true,
+      render: (ev) => <span className={styles.time}>{ev.time}</span>,
+    },
+    {
+      key: "status",
+      header: "Status",
+      sortable: true,
+      render: (ev) => (
+        <Badge
+          variant={
+            ev.status === "Completed"
+              ? "success"
+              : ev.status === "Active"
+              ? "brand"
+              : "warning"
+          }
+          size="sm"
+        >
+          {ev.status}
+        </Badge>
+      ),
+    },
+    {
+      key: "action",
+      header: "Action",
+      sortable: false,
+      render: () => (
+        <Button variant="ghost" size="sm">Inspect</Button>
+      ),
+    },
   ]
 
   return (
@@ -63,34 +124,15 @@ export default function BackofficeDashboardPage() {
           <Button variant="outline" size="sm">View Audit Trail</Button>
         </div>
 
-        <TableShell>
-          <thead>
-            <tr>
-              <th>Event Type</th>
-              <th>Entity / Target</th>
-              <th>Timestamp</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {RECENT_ACTIVITY.map((ev, i) => (
-              <tr key={i}>
-                <td className={styles.eventType}>{ev.type}</td>
-                <td className={styles.entity}>{ev.entity}</td>
-                <td className={styles.time}>{ev.time}</td>
-                <td>
-                  <Badge variant={ev.status === "Completed" ? "success" : ev.status === "Active" ? "brand" : "warning"} size="sm">
-                    {ev.status}
-                  </Badge>
-                </td>
-                <td>
-                  <Button variant="ghost" size="sm">Inspect</Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </TableShell>
+        <DataTable
+          columns={columns}
+          data={RECENT_ACTIVITY}
+          keyField="id"
+          searchPlaceholder="Search governance activity by event, entity, or status..."
+          defaultSortKey="time"
+          pageSizeOptions={[5, 10, 25]}
+          defaultPageSize={5}
+        />
       </Card>
     </div>
   )

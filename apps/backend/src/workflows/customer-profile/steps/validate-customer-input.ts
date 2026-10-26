@@ -18,12 +18,18 @@ export type ValidateCustomerInput = {
   }
   profile?: {
     customer_reference?: string | null
-    date_of_birth?: string | null
-    gender?: Gender | null
-    salutation?: Salutation | null
+    reference?: string | null
+    first_name?: string | null
+    last_name?: string | null
+    email?: string | null
+    phone?: string | null
+    salutation?: Salutation | string | null
     position?: string | null
+    locale?: string | null
     locale_code?: string | null
+    reset_password_token?: string | null
     fk_merchant_user?: string | null
+    fk_company?: number | string | null
     company_id?: string | null
     company_name?: string | null
     legacy_customer_id?: number | null
@@ -45,40 +51,22 @@ export async function validateCustomerInput(
     )
   }
 
-  // 2. Gender validation
-  if (input.profile?.gender && !Object.values(Gender).includes(input.profile.gender)) {
-    throw new MedusaError(
-      MedusaError.Types.INVALID_DATA,
-      `Invalid gender: '${input.profile.gender}'. Allowed values: ${Object.values(Gender).join(", ")}`
-    )
-  }
 
   // 3. Salutation validation
-  if (input.profile?.salutation && !Object.values(Salutation).includes(input.profile.salutation)) {
+  if (input.profile?.salutation && !Object.values(Salutation).includes(input.profile.salutation as Salutation)) {
     throw new MedusaError(
       MedusaError.Types.INVALID_DATA,
       `Invalid salutation: '${input.profile.salutation}'. Allowed values: ${Object.values(Salutation).join(", ")}`
     )
   }
 
-  // 4. Date of birth validation (if present)
-  if (input.profile?.date_of_birth) {
-    const parsedDate = new Date(input.profile.date_of_birth)
-    if (isNaN(parsedDate.getTime())) {
-      throw new MedusaError(
-        MedusaError.Types.INVALID_DATA,
-        "Invalid date_of_birth format. Expected valid date string (e.g. YYYY-MM-DD)."
-      )
-    }
-  }
-
   // 5. Customer reference handling & uniqueness check
   const service: CustomerProfileModuleService = container.resolve(CUSTOMER_PROFILE_MODULE)
-  let customerReference = input.profile?.customer_reference?.trim()
+  let customerReference = (input.profile?.reference || input.profile?.customer_reference)?.trim()
 
   if (customerReference) {
     const existing = await service.listCustomerProfiles({
-      customer_reference: customerReference,
+      reference: customerReference,
     })
     if (existing.length > 0) {
       throw new MedusaError(
@@ -124,15 +112,27 @@ export async function validateCustomerInput(
     // If seller module is not available or error, keep values gracefully
   }
 
+  const { company_name: _cName, ...cleanCustomerData } = (input.customer || {}) as any
   const validatedCustomerData = {
-    ...input.customer,
+    ...cleanCustomerData,
     email: input.customer.email.trim().toLowerCase(),
-    company_name: resolvedCompanyName,
+    metadata: {
+      ...(input.customer?.metadata || {}),
+      ...(_cName ? { company_name: _cName } : {}),
+    },
   }
+
+  const parsedFkCompany = input.profile?.fk_company
+    ? typeof input.profile.fk_company === "number"
+      ? input.profile.fk_company
+      : parseInt(String(input.profile.fk_company), 10) || null
+    : null
 
   const validatedProfileData = {
     ...input.profile,
+    reference: customerReference,
     customer_reference: customerReference,
+    fk_company: parsedFkCompany,
     company_id: resolvedCompanyId,
     company_name: resolvedCompanyName,
     fk_merchant_user: resolvedCompanyId,

@@ -6,11 +6,11 @@
   "tables": [
     {
       "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
+        "id_customer": {
+          "name": "id_customer",
+          "type": "serial",
           "unsigned": false,
-          "autoincrement": false,
+          "autoincrement": true,
           "primary": true,
           "nullable": false,
           "unique": false,
@@ -20,26 +20,10 @@
           "default": null,
           "comment": null,
           "enumItems": [],
-          "mappedType": "text"
+          "mappedType": "integer"
         },
-        "customer_reference": {
-          "name": "customer_reference",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "unique": false,
-          "length": null,
-          "precision": null,
-          "scale": null,
-          "default": null,
-          "comment": null,
-          "enumItems": [],
-          "mappedType": "text"
-        },
-        "date_of_birth": {
-          "name": "date_of_birth",
+        "first_name": {
+          "name": "first_name",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,
@@ -54,8 +38,8 @@
           "enumItems": [],
           "mappedType": "text"
         },
-        "gender": {
-          "name": "gender",
+        "last_name": {
+          "name": "last_name",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,
@@ -67,13 +51,24 @@
           "scale": null,
           "default": null,
           "comment": null,
-          "enumItems": [
-            "male",
-            "female",
-            "other",
-            "unspecified"
-          ],
-          "mappedType": "enum"
+          "enumItems": [],
+          "mappedType": "text"
+        },
+        "reference": {
+          "name": "reference",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "enumItems": [],
+          "mappedType": "text"
         },
         "salutation": {
           "name": "salutation",
@@ -88,14 +83,56 @@
           "scale": null,
           "default": null,
           "comment": null,
-          "enumItems": [
-            "mr",
-            "ms",
-            "mrs",
-            "dr",
-            "other"
-          ],
-          "mappedType": "enum"
+          "enumItems": [],
+          "mappedType": "text"
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "enumItems": [],
+          "mappedType": "text"
+        },
+        "phone": {
+          "name": "phone",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "enumItems": [],
+          "mappedType": "text"
+        },
+        "fk_company": {
+          "name": "fk_company",
+          "type": "integer",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "enumItems": [],
+          "mappedType": "integer"
         },
         "position": {
           "name": "position",
@@ -113,8 +150,24 @@
           "enumItems": [],
           "mappedType": "text"
         },
-        "locale_code": {
-          "name": "locale_code",
+        "locale": {
+          "name": "locale",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": null,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "enumItems": [],
+          "mappedType": "text"
+        },
+        "reset_password_token": {
+          "name": "reset_password_token",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,
@@ -177,38 +230,6 @@
           "enumItems": [],
           "mappedType": "datetime"
         },
-        "legacy_customer_id": {
-          "name": "legacy_customer_id",
-          "type": "integer",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "unique": false,
-          "length": null,
-          "precision": null,
-          "scale": null,
-          "default": null,
-          "comment": null,
-          "enumItems": [],
-          "mappedType": "integer"
-        },
-        "metadata": {
-          "name": "metadata",
-          "type": "jsonb",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "unique": false,
-          "length": null,
-          "precision": null,
-          "scale": null,
-          "default": null,
-          "comment": null,
-          "enumItems": [],
-          "mappedType": "json"
-        },
         "created_at": {
           "name": "created_at",
           "type": "timestamptz",
@@ -258,31 +279,22 @@
           "mappedType": "datetime"
         }
       },
-      "name": "customer_profile",
+      "name": "sdv_customers",
       "schema": "public",
       "indexes": [
         {
-          "keyName": "IDX_customer_profile_customer_reference_unique",
+          "keyName": "IDX_sdv_customers_deleted_at",
           "columnNames": [],
           "composite": false,
           "constraint": false,
           "primary": false,
           "unique": false,
-          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"IDX_customer_profile_customer_reference_unique\" ON \"customer_profile\" (\"customer_reference\") WHERE deleted_at IS NULL"
+          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_sdv_customers_deleted_at\" ON \"sdv_customers\" (\"deleted_at\") WHERE deleted_at IS NULL"
         },
         {
-          "keyName": "IDX_customer_profile_deleted_at",
-          "columnNames": [],
-          "composite": false,
-          "constraint": false,
-          "primary": false,
-          "unique": false,
-          "expression": "CREATE INDEX IF NOT EXISTS \"IDX_customer_profile_deleted_at\" ON \"customer_profile\" (\"deleted_at\") WHERE deleted_at IS NULL"
-        },
-        {
-          "keyName": "customer_profile_pkey",
+          "keyName": "sdv_customers_pkey",
           "columnNames": [
-            "id"
+            "id_customer"
           ],
           "composite": false,
           "constraint": true,

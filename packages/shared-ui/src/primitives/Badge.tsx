@@ -2,6 +2,7 @@ import React from "react"
 import styles from "./Badge.module.scss"
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
+  children?: React.ReactNode
   variant?: "default" | "success" | "warning" | "danger" | "brand"
   size?: "sm" | "md"
 }

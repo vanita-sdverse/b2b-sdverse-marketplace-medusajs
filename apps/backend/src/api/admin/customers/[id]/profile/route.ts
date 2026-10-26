@@ -16,8 +16,6 @@ const updateCustomerProfileSchema = z.object({
     .optional(),
   profile: z
     .object({
-      date_of_birth: z.string().nullable().optional(),
-      gender: z.nativeEnum(Gender).nullable().optional(),
       salutation: z.nativeEnum(Salutation).nullable().optional(),
       position: z.string().nullable().optional(),
       locale_code: z.string().nullable().optional(),

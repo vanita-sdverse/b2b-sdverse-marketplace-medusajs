@@ -14,21 +14,28 @@ describe("Customer Profile Module Unit Tests", () => {
 
   it("defines the CustomerProfile model with all required schema fields", () => {
     expect(CustomerProfile).toBeDefined()
-    expect(CustomerProfile.name).toBe("CustomerProfile")
+    expect(CustomerProfile.name).toBe("SdvCustomers")
 
     const schema = (CustomerProfile as any).schema
     expect(schema).toBeDefined()
-    expect(schema.id).toBeDefined()
-    expect(schema.customer_reference).toBeDefined()
-    expect(schema.date_of_birth).toBeDefined()
-    expect(schema.gender).toBeDefined()
+    expect(schema.id_customer).toBeDefined()
+    const parsedId = schema.id_customer.parse("id_customer")
+    expect(parsedId.primaryKey).toBe(true)
+    expect(schema.first_name).toBeDefined()
+    expect(schema.last_name).toBeDefined()
+    expect(schema.reference).toBeDefined()
     expect(schema.salutation).toBeDefined()
+    expect(schema.email).toBeDefined()
+    expect(schema.phone).toBeDefined()
+    expect(schema.fk_company).toBeDefined()
     expect(schema.position).toBeDefined()
-    expect(schema.locale_code).toBeDefined()
+    expect(schema.locale).toBeDefined()
+    expect(schema.reset_password_token).toBeDefined()
     expect(schema.anonymized_at).toBeDefined()
     expect(schema.last_login).toBeDefined()
     expect(schema.registered_at).toBeDefined()
-    expect(schema.legacy_customer_id).toBeDefined()
+    expect(schema.created_at).toBeDefined()
+    expect(schema.updated_at).toBeDefined()
   })
 
   it("has valid Gender semantic enum values", () => {

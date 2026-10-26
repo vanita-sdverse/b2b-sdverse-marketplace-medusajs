@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server"
 
+export const dynamic = "force-dynamic"
+export const revalidate = 0
+
 const BACKEND_URL = process.env.MEDUSA_BACKEND_URL || "http://medusa:9000"
 
 export async function GET() {
@@ -24,10 +27,16 @@ export async function GET() {
 
   return NextResponse.json({
     companies: [
-      { id: "sel_sdverse", name: "SDVerse" },
-      { id: "sel_nordic", name: "Nordic Transport Logistics AB" },
-      { id: "sel_scania", name: "Scania Logistics Hub" },
-      { id: "sel_man", name: "MAN Truck Repair Berlin" },
+      { id: "comp_134", id_company: 134, name: "Nexon", is_active: true, status: "Subscribed", subscription_end_date: "2027-10-13", subscription_expiration_date: "2027-10-13T00:00:00.000Z" },
+      { id: "comp_133", id_company: 133, name: "BYD 1", is_active: true, status: "Subscribed", subscription_end_date: "2027-10-12", subscription_expiration_date: "2027-10-12T00:00:00.000Z" },
+      { id: "comp_132", id_company: 132, name: "Volvo", is_active: true, status: "Subscribed", subscription_end_date: "2027-10-12", subscription_expiration_date: "2027-10-12T00:00:00.000Z" },
+      { id: "comp_131", id_company: 131, name: "BYD", is_active: true, status: "Subscribed", subscription_end_date: "2027-10-12", subscription_expiration_date: "2027-10-12T00:00:00.000Z" },
+      { id: "comp_130", id_company: 130, name: "Hero motors", is_active: true, status: "Subscribed", subscription_end_date: "2027-10-12", subscription_expiration_date: "2027-10-12T00:00:00.000Z" },
+      { id: "comp_129", id_company: 129, name: "Adi Motors", is_active: true, status: "Subscribed", subscription_end_date: "2027-10-12", subscription_expiration_date: "2027-10-12T00:00:00.000Z" },
+      { id: "comp_128", id_company: 128, name: "TY", is_active: true, status: "Subscribed", subscription_end_date: "2027-10-08", subscription_expiration_date: "2027-10-08T00:00:00.000Z" },
+      { id: "comp_127", id_company: 127, name: "MG", is_active: true, status: "Subscribed", subscription_end_date: "2027-10-08", subscription_expiration_date: "2027-10-08T00:00:00.000Z" },
+      { id: "comp_126", id_company: 126, name: "Skoda", is_active: true, status: "Subscribed", subscription_end_date: "2027-10-08", subscription_expiration_date: "2027-10-08T00:00:00.000Z" },
+      { id: "comp_125", id_company: 125, name: "TVS", is_active: true, status: "Subscribed", subscription_end_date: "2027-10-08", subscription_expiration_date: "2027-10-08T00:00:00.000Z" },
     ],
   })
 }

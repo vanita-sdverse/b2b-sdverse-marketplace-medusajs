@@ -1,21 +1,46 @@
 .backdrop {
   position: fixed;
   inset: 0;
-  background-color: rgba(17, 24, 39, 0.6);
+  background-color: rgba(17, 24, 39, 0.65);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 50;
-  padding: 1rem;
+  padding: 1.5rem;
 }
 
 .modal {
   background-color: #ffffff;
-  border-radius: 8px;
-  max-width: 500px;
+  border-radius: 10px;
   width: 100%;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+}
+
+.sizeSm {
+  max-width: 420px;
+}
+
+.sizeMd {
+  max-width: 540px;
+}
+
+.sizeLg {
+  max-width: 760px;
+}
+
+.sizeWide {
+  width: 75vw;
+  max-width: 1150px;
+  min-width: min(90vw, 750px);
+
+  @media (max-width: 768px) {
+    width: 95vw;
+    min-width: auto;
+  }
 }
 
 .header {
@@ -47,5 +72,7 @@
 }
 
 .content {
-  padding: 1.25rem;
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
 }

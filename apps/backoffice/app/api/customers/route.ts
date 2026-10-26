@@ -25,8 +25,9 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  let body: any
   try {
-    const body = await req.json()
+    body = await req.json()
     const res = await fetch(`${BACKEND_URL}/customers-with-profile`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -45,13 +46,13 @@ export async function POST(req: Request) {
       const fallbackRes = await fetch("http://localhost:9000/customers-with-profile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(await req.json()),
+        body: JSON.stringify(body),
       })
       if (fallbackRes.ok) {
         const data = await fallbackRes.json()
         return NextResponse.json(data, { status: 201 })
       }
     } catch (e) {}
-    return NextResponse.json({ message: err.message || "Network error" }, { status: 500 })
+    return NextResponse.json({ message: err?.message || "Network error" }, { status: 500 })
   }
 }

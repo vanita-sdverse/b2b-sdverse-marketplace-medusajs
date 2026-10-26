@@ -7,5 +7,5 @@ export default defineLink(
     linkable: CustomerModule.linkable.customer,
     deleteCascade: true,
   },
-  CustomerProfileModule.linkable.customerProfile
+  CustomerProfileModule.linkable.sdvCustomers
 )

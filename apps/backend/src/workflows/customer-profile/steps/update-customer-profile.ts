@@ -8,8 +8,6 @@ import { generateCustomerReference } from "../../../modules/customer-profile/uti
 export type UpdateCustomerProfileStepInput = {
   customer_id: string
   profileData: {
-    date_of_birth?: string | null
-    gender?: Gender | null
     salutation?: Salutation | null
     position?: string | null
     locale_code?: string | null
@@ -19,10 +17,8 @@ export type UpdateCustomerProfileStepInput = {
 
 type CompensationData = {
   action: "update" | "create"
-  profileId: string
+  profileId: string | number
   previousState?: {
-    date_of_birth?: string | null
-    gender?: Gender | null
     salutation?: Salutation | null
     position?: string | null
     locale_code?: string | null
@@ -44,27 +40,26 @@ export const updateCustomerProfileStep = createStep(
       filters: { id: input.customer_id },
     }
     const [customer] = (await remoteQuery(query)) as any[]
-    const existingProfile = customer?.customer_profile
+    const existingProfile = customer?.customer_profile || customer?.sdv_customers
+    const profilePk = existingProfile?.id_customer ?? existingProfile?.id
 
-    if (existingProfile?.id) {
+    if (profilePk) {
       // Store previous state for rollback compensation
       const previousState = {
-        date_of_birth: existingProfile.date_of_birth,
-        gender: existingProfile.gender,
         salutation: existingProfile.salutation,
         position: existingProfile.position,
         locale_code: existingProfile.locale_code,
         metadata: existingProfile.metadata,
       }
 
-      const updated = await service.updateCustomerProfiles({
-        id: existingProfile.id,
+      const updated = await (service as any).updateCustomerProfiles({
+        id_customer: profilePk,
         ...input.profileData,
       })
 
       const compensation: CompensationData = {
         action: "update",
-        profileId: existingProfile.id,
+        profileId: profilePk,
         previousState,
       }
 
@@ -74,10 +69,11 @@ export const updateCustomerProfileStep = createStep(
       )
     } else {
       // Profile didn't exist yet, create and link it
-      const newProfile = await service.createCustomerProfiles({
+      const newProfile = await (service as any).createCustomerProfiles({
         customer_reference: generateCustomerReference(),
         ...input.profileData,
       })
+      const newProfilePk = (newProfile as any).id_customer ?? (newProfile as any).id
 
       await remoteLink.create([
         {
@@ -85,14 +81,14 @@ export const updateCustomerProfileStep = createStep(
             customer_id: input.customer_id,
           },
           [CUSTOMER_PROFILE_MODULE]: {
-            customer_profile_id: newProfile.id,
+            sdv_customers_id_customer: newProfilePk,
           },
         },
       ])
 
       const compensation: CompensationData = {
         action: "create",
-        profileId: newProfile.id,
+        profileId: newProfilePk,
       }
 
       return new StepResponse(
@@ -107,12 +103,12 @@ export const updateCustomerProfileStep = createStep(
     const service: CustomerProfileModuleService = container.resolve(CUSTOMER_PROFILE_MODULE)
 
     if (compensationData.action === "update" && compensationData.profileId && compensationData.previousState) {
-      await service.updateCustomerProfiles({
-        id: compensationData.profileId,
+      await (service as any).updateCustomerProfiles({
+        id_customer: compensationData.profileId,
         ...compensationData.previousState,
       })
     } else if (compensationData.action === "create" && compensationData.profileId) {
-      await service.deleteCustomerProfiles(compensationData.profileId)
+      await (service as any).deleteCustomerProfiles(compensationData.profileId)
     }
   }
 )

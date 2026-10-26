@@ -2,7 +2,7 @@ import { createCustomerWithProfileWorkflow } from "../workflows/create-customer-
 import { updateCustomerWithProfileWorkflow } from "../workflows/update-customer-with-profile"
 import { anonymizeCustomerWorkflow } from "../workflows/anonymize-customer"
 import { validateCustomerInput } from "../steps/validate-customer-input"
-import { Gender, Salutation } from "../../../modules/customer-profile/models/customer-profile"
+import { Salutation } from "../../../modules/customer-profile/models/customer-profile"
 
 describe("Customer Profile Workflows", () => {
   it("defines createCustomerWithProfileWorkflow", () => {
@@ -45,7 +45,6 @@ describe("Customer Profile Workflows", () => {
             last_name: "User",
           },
           profile: {
-            gender: Gender.FEMALE,
             salutation: Salutation.MS,
             position: "Engineer",
             locale_code: "en_US",
@@ -57,20 +56,19 @@ describe("Customer Profile Workflows", () => {
       expect(result).toBeDefined()
       expect(result.customer.email).toBe("test.user@example.com")
       expect(result.profile.customer_reference).toMatch(/^CUS-/)
-      expect(result.profile.gender).toBe("female")
       expect(result.profile.salutation).toBe("ms")
     })
 
-    it("rejects invalid enum values", async () => {
+    it("rejects invalid salutation enum values", async () => {
       await expect(
         validateCustomerInput(
           {
             customer: { email: "valid@example.com" },
-            profile: { gender: "alien" as any },
+            profile: { salutation: "alien" as any },
           },
           mockContainer
         )
-      ).rejects.toThrow(/Invalid gender/)
+      ).rejects.toThrow(/Invalid salutation/)
     })
 
     it("rejects duplicate customer references", async () => {

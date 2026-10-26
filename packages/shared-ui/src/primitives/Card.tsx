@@ -2,6 +2,7 @@ import React from "react"
 import styles from "./Card.module.scss"
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+  children?: React.ReactNode
   padding?: "none" | "sm" | "md" | "lg"
   bordered?: boolean
 }

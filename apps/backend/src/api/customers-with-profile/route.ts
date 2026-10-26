@@ -10,15 +10,14 @@ const createCustomerWithProfileSchema = z.object({
   company_name: z.string().nullable().optional(),
   company_id: z.string().nullable().optional(),
   fk_merchant_user: z.string().nullable().optional(),
+  fk_company: z.union([z.string(), z.number()]).nullable().optional(),
   phone: z.string().nullable().optional(),
-  customer_reference: z.string().nullable().optional(),
-  date_of_birth: z.string().nullable().optional(),
-  gender: z.nativeEnum(Gender).nullable().optional(),
-  salutation: z.nativeEnum(Salutation).nullable().optional(),
+  reference: z.string().nullable().optional(),
+  salutation: z.string().nullable().optional(),
   position: z.string().nullable().optional(),
-  locale_code: z.string().nullable().optional(),
-  legacy_customer_id: z.number().nullable().optional(),
-  metadata: z.record(z.string(), z.unknown()).nullable().optional(),
+  locale: z.string().nullable().optional(),
+  send_password_reset_email: z.boolean().nullable().optional(),
+  reset_password_token: z.string().nullable().optional(),
 })
 
 export async function POST(
@@ -27,31 +26,40 @@ export async function POST(
 ) {
   const parsed = createCustomerWithProfileSchema.parse(req.body)
 
+  const generatedToken = parsed.send_password_reset_email
+    ? `reset_${Date.now()}_${Math.random().toString(36).substring(2, 12)}`
+    : parsed.reset_password_token || null
+
+  const resolvedCompanyId = parsed.company_id || (typeof parsed.fk_company === "string" ? parsed.fk_company : null) || parsed.fk_merchant_user || null
+
   const { result } = await createCustomerWithProfileWorkflow(req.scope).run({
     input: {
       customer: {
         email: parsed.email,
         first_name: parsed.first_name,
         last_name: parsed.last_name,
-        company_name: parsed.company_name,
+        company_name: parsed.company_name || null,
         phone: parsed.phone,
-        metadata: parsed.metadata,
       },
       profile: {
-        customer_reference: parsed.customer_reference,
-        date_of_birth: parsed.date_of_birth,
-        gender: parsed.gender,
-        salutation: parsed.salutation,
+        reference: parsed.reference,
+        customer_reference: parsed.reference,
+        first_name: parsed.first_name,
+        last_name: parsed.last_name,
+        email: parsed.email,
+        phone: parsed.phone,
+        company_name: parsed.company_name || null,
+        company_id: resolvedCompanyId,
+        fk_merchant_user: resolvedCompanyId,
+        salutation: parsed.salutation as Salutation,
         position: parsed.position,
-        locale_code: parsed.locale_code,
-        fk_merchant_user: parsed.fk_merchant_user || parsed.company_id,
-        company_id: parsed.company_id,
-        company_name: parsed.company_name,
-        legacy_customer_id: parsed.legacy_customer_id,
-        metadata: parsed.metadata,
+        locale: parsed.locale,
+        locale_code: parsed.locale,
+        reset_password_token: generatedToken,
+        fk_company: parsed.fk_company ? (typeof parsed.fk_company === "number" ? parsed.fk_company : parseInt(parsed.fk_company, 10) || null) : null,
       },
     },
   })
 
-  res.status(201).json({ customer: result })
+  res.status(201).json({ customer: result, password_reset_sent: !!parsed.send_password_reset_email })
 }

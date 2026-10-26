@@ -1,4 +1,5 @@
 import { model } from "@medusajs/framework/utils"
+import { MODEL_PREFIXES } from "../../../constants"
 
 export enum Gender {
   MALE = "male",
@@ -15,24 +16,25 @@ export enum Salutation {
   OTHER = "other",
 }
 
-export const CustomerProfile = model.define("customer_profile", {
-  id: model.id().primaryKey(),
-  customer_reference: model.text().unique().searchable(),
-  date_of_birth: model.text().nullable(),
-  gender: model.enum(Gender).nullable(),
-  salutation: model.enum(Salutation).nullable(),
+
+export const CustomerProfile = model.define("sdv_customers", {
+  id_customer: model.autoincrement().primaryKey(),
+  first_name: model.text().nullable(),
+  last_name: model.text().nullable(),
+  reference: model.text().searchable().nullable(),
+  salutation: model.text().nullable(),
+  email: model.text().searchable().nullable(),
+  phone: model.text().nullable(),
+  fk_company: model.number().nullable(),
   position: model.text().nullable(),
-  locale_code: model.text().nullable(),
-  fk_merchant_user: model.text().nullable(),
-  company_id: model.text().nullable(),
-  company_name: model.text().nullable(),
+  locale: model.text().nullable(),
+  reset_password_token: model.text().nullable(),
+  is_active: model.boolean().default(true),
   anonymized_at: model.dateTime().nullable(),
   last_login: model.dateTime().nullable(),
   registered_at: model.dateTime().nullable(),
-  fk_company: model.text().nullable(),
-  created_by: model.text().nullable(),
-  updated_by: model.text().nullable(),
-  metadata: model.json().nullable(),
 })
 
+export const SdvCustomers = CustomerProfile
 export default CustomerProfile
+

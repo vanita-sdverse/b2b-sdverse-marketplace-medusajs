@@ -26,6 +26,7 @@ import {
   updateStoresWorkflow,
 } from "@medusajs/medusa/core-flows";
 import { ApiKey } from "../../.medusa/types/query-entry-points";
+import seedRoles from "./seed-roles";
 
 const updateStoreCurrencies = createWorkflow(
   "update-store-currencies",
@@ -55,7 +56,7 @@ const updateStoreCurrencies = createWorkflow(
   }
 );
 
-export default async function seedDemoData({ container }: ExecArgs) {
+export default async function seedDemoData({ container, args }: ExecArgs) {
   const logger = container.resolve(ContainerRegistrationKeys.LOGGER);
   const link = container.resolve(ContainerRegistrationKeys.LINK);
   const query = container.resolve(ContainerRegistrationKeys.QUERY);
@@ -919,4 +920,6 @@ export default async function seedDemoData({ container }: ExecArgs) {
   });
 
   logger.info("Finished seeding inventory levels data.");
+
+  await seedRoles({ container, args });
 }

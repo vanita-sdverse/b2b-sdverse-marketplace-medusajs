@@ -4,5 +4,5 @@ import { defineLink } from "@medusajs/framework/utils"
 
 export default defineLink(
   CustomerModule.linkable.customer,
-  CompanyModule.linkable.company
+  CompanyModule.linkable.sdvCompany
 )

@@ -36,9 +36,7 @@ const CustomerListActionWidget = () => {
           company_name: company || undefined,
           phone: phone || undefined,
           salutation,
-          gender,
           position: position || undefined,
-          date_of_birth: dateOfBirth || undefined,
           locale_code: localeCode,
         }),
       })

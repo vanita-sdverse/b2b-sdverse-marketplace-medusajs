@@ -2,6 +2,7 @@ import React from "react"
 import styles from "./TableShell.module.scss"
 
 export interface TableShellProps extends React.TableHTMLAttributes<HTMLTableElement> {
+  children?: React.ReactNode
   striped?: boolean
 }
 
